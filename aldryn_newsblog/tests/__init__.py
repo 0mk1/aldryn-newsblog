@@ -22,10 +22,8 @@ from cms.apphook_pool import apphook_pool
 from cms.appresolver import clear_app_resolvers
 from cms.exceptions import AppAlreadyRegistered
 from cms.test_utils.testcases import CMSTestCase, TransactionCMSTestCase
-from cms.utils.conf import get_cms_setting
-
 from cms.toolbar.toolbar import CMSToolbar
-
+from cms.utils.conf import get_cms_setting
 
 from parler.utils.context import switch_language
 
@@ -186,8 +184,11 @@ class NewsBlogTestsMixin(object):
         self.language = settings.LANGUAGES[0][0]
         self.root_page = api.create_page(
             'root page', self.template, self.language, published=True)
-        self.app_config = NewsBlogConfig.objects.create(
-            namespace='NBNS', paginate_by=15)
+        self.app_config = NewsBlogConfig.objects.language(self.language).create(
+            app_title='news_blog',
+            namespace='NBNS',
+            paginate_by=15,
+        )
         self.page = api.create_page(
             'page', self.template, self.language, published=True,
             parent=self.root_page,
@@ -208,6 +209,11 @@ class NewsBlogTestsMixin(object):
 
 class CleanUpMixin(object):
     apphook_object = None
+
+    def setUp(self):
+        super(CleanUpMixin, self).setUp()
+        apphook_object = self.get_apphook_object()
+        self.reload_urls(apphook_object)
 
     def tearDown(self):
         """
