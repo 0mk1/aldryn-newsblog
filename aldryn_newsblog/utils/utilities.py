@@ -122,8 +122,7 @@ def render_plugin(request, plugin_instance):
         )
     else:
         renderer = ContentRenderer(request)
-        context = RequestContext(request)
-        context['request'] = request
+        context = {'request': request}
         return renderer.render_plugin(plugin_instance, context)
 
 
