@@ -183,7 +183,18 @@ class NewsBlogTestsMixin(object):
         self.template = get_cms_setting('TEMPLATES')[0][0]
         self.language = settings.LANGUAGES[0][0]
         self.root_page = api.create_page(
-            'root page', self.template, self.language, published=True)
+            'root page',
+            self.template,
+            self.language,
+            published=True,
+        )
+
+        try:
+            # Django-cms 3.5 doesn't set is_home when create_page is called
+            self.root_page.set_as_homepage()
+        except AttributeError:
+            pass
+
         self.app_config = NewsBlogConfig.objects.language(self.language).create(
             app_title='news_blog',
             namespace='NBNS',

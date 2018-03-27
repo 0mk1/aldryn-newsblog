@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 from aldryn_newsblog import __version__
 
 REQUIREMENTS = [
-    'Django>=1.8,<1.11',
+    'Django>=1.8,<2.0',
     'python-dateutil',
     'aldryn-apphooks-config>=0.2.4',
     'aldryn-boilerplates>=0.7.2',
