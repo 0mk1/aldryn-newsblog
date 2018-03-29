@@ -6,6 +6,4 @@ django-haystack
 django-mptt>=0.7
 django-polymorphic>=0.7
 
-aldryn-apphooks-config>=0.2.4,<0.4.0
-
 -r base.txt

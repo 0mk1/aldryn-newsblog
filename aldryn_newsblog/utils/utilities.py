@@ -22,11 +22,7 @@ except ImportError:
 from django.utils.html import strip_tags as _strip_tags
 from django.utils.text import smart_split
 
-try:
-    # Only django-cms>=3.4
-    from cms.plugin_rendering import ContentRenderer
-except ImportError:
-    pass
+from cms.plugin_rendering import ContentRenderer
 from cms.utils.i18n import force_language, get_language_object
 
 from lxml.html.clean import Cleaner as LxmlCleaner
@@ -115,15 +111,9 @@ def get_field_value(obj, name):
 
 
 def render_plugin(request, plugin_instance):
-    if getattr(plugin_instance, 'render_plugin', None):
-        # Backward compatibility for django-cms<3.4
-        return plugin_instance.render_plugin(
-            context=RequestContext(request),
-        )
-    else:
-        renderer = ContentRenderer(request)
-        context = {'request': request}
-        return renderer.render_plugin(plugin_instance, context)
+    renderer = ContentRenderer(request)
+    context = {'request': request}
+    return renderer.render_plugin(plugin_instance, context)
 
 
 def get_plugin_index_data(base_plugin, request):
