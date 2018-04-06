@@ -12,7 +12,6 @@ except ImportError:
     from django.contrib.sites.models import get_current_site
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
-from django.template import RequestContext
 from django.test import RequestFactory
 from django.utils import translation
 try:
